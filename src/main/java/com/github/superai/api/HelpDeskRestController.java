@@ -2,6 +2,7 @@ package com.github.superai.api;
 
 
 import com.github.superai.service.CustomerSupportAssistant;
+import com.github.superai.service.HelpChatResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +23,11 @@ public class HelpDeskRestController {
 
 
     @GetMapping("/helpdesk")
-    public Flux<String> chat(
+    public Flux<HelpChatResponse> chat(
             @RequestParam(value = "chatId") String chatId,
             @RequestParam(value = "message", defaultValue = "How many teams compete in the World Cup T20 2024?") String message) {
         log.info("Meesage = {}", message);
-
+        log.info("chatId = {}", chatId);
 
         return
         customerSupportAssistant.chat(chatId, message);
