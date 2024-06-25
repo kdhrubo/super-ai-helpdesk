@@ -8,7 +8,7 @@ spring:
       api-key: ${SPRINGAI_OPENAI_KEY}
       chat:
         options:
-          model: gpt-4
+          model: gpt-4o
 
     vectorstore:
       pgvector:

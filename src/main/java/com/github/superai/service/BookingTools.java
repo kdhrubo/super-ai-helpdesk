@@ -6,6 +6,7 @@ import java.util.function.Function;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.github.superai.data.BookingStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.core.NestedExceptionUtils;
 
 @Configuration
+@Slf4j
 public class BookingTools {
 
     private static final Logger logger = LoggerFactory.getLogger(BookingTools.class);
@@ -49,6 +51,7 @@ public class BookingTools {
     public Function<BookingDetailsRequest, BookingDetails> getBookingDetails() {
         return request -> {
             try {
+                log.info("**** Get booking details request - {}", request);
                 return flightBookingService.getBookingDetails(request.bookingNumber(), request.firstName(),
                         request.lastName());
             }
@@ -64,6 +67,7 @@ public class BookingTools {
     @Description("Change booking dates")
     public Function<ChangeBookingDatesRequest, String> changeBooking() {
         return request -> {
+            log.info("Get booking details request - {}", request);
             flightBookingService.changeBooking(request.bookingNumber(), request.firstName(), request.lastName(),
                     request.date(), request.from(), request.to());
             return "";
@@ -74,6 +78,7 @@ public class BookingTools {
     @Description("Cancel booking")
     public Function<CancelBookingRequest, String> cancelBooking() {
         return request -> {
+            log.info("****** Get booking details request - {}", request);
             flightBookingService.cancelBooking(request.bookingNumber(), request.firstName(), request.lastName());
             return "";
         };

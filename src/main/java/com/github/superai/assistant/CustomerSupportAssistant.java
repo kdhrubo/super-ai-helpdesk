@@ -1,10 +1,10 @@
 
 
-package com.github.superai.service;
+package com.github.superai.assistant;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
+import com.github.superai.service.LoggingAdvisor;
 import reactor.core.publisher.Flux;
 
 import org.springframework.ai.chat.client.ChatClient;
@@ -57,7 +57,7 @@ public class CustomerSupportAssistant {
 		// @formatter:on
 	}
 
-	public Flux<HelpChatResponse> chat(String chatId, String userMessageContent) {
+	public Flux<String> chat(String chatId, String userMessageContent) {
 
 		return this.chatClient.prompt()
 				.system(s -> s.param("current_date", LocalDate.now().toString()))
@@ -65,6 +65,6 @@ public class CustomerSupportAssistant {
 				.advisors(a -> a
 						.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId)
 						.param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 100))
-				.stream().content().map(it -> new HelpChatResponse(UUID.randomUUID().toString(), it));
+				.stream().content();
 	}
 }
