@@ -123,7 +123,7 @@
 <main class="container" x-data="helpDeskApp()">
     <div class="row">
 
-        <div class="col-md-12"><h1>Super Airlines Customer Service</h1></div>
+        <div class="col-md-12"><h1>Super Air Customer Service</h1></div>
         <div class="col-md-12">
             <small class="text-success"><i></i>Hi, I am SuperZ. How I can help you today?</i></small>
         </div>
@@ -219,13 +219,14 @@
         answer: "",
         bookings : [],
         showBookingSpinner: true,
+
         getAnswer(event) {
             // supress the submit so the the page does not refersh
             event.preventDefault();
 
             console.log('message : ', this.message);
 
-            fetch('http://localhost:8080/v1/api/helpdesk?message='+this.message+"&chatId="+this.chatId)
+            fetch('http://localhost:8080/v2/api/helpdesk?message='+this.message+"&chatId="+this.chatId)
                 .then((response) => response.text())
                 .then((data) => {
                     // if the value is not null

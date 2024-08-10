@@ -47,7 +47,7 @@ public class BookingTools {
     }
 
     @Bean
-    @Description("Get booking details")
+    @Description("Get flight booking details")
     public Function<BookingDetailsRequest, BookingDetails> getBookingDetails() {
         return request -> {
             try {
@@ -64,7 +64,7 @@ public class BookingTools {
     }
 
     @Bean
-    @Description("Change booking dates")
+    @Description("Change flight booking dates")
     public Function<ChangeBookingDatesRequest, String> changeBooking() {
         return request -> {
             log.info("Get booking details request - {}", request);
@@ -75,7 +75,7 @@ public class BookingTools {
     }
 
     @Bean
-    @Description("Cancel booking")
+    @Description("Cancel flight booking")
     public Function<CancelBookingRequest, String> cancelBooking() {
         return request -> {
             log.info("****** Get booking details request - {}", request);
