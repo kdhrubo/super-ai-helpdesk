@@ -4,6 +4,7 @@ package com.github.superai.api;
 import com.github.superai.assistant.CustomerSupportAssistant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.NestedExceptionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,11 +40,14 @@ public class HelpDeskRestController {
         log.info("**** Inside V2 ******");
         log.info("Meesage = {}", message);
         log.info("chatId = {}", chatId);
+        try {
+            return
+                    customerSupportAssistant.chatV2(chatId, message);
 
-        return
-                customerSupportAssistant.chatV2(chatId, message);
-
-
+        }
+        catch (Exception e) {
+            return "Sorry! encountered an error  - " + NestedExceptionUtils.getMostSpecificCause(e).getMessage();
+        }
 
     }
 

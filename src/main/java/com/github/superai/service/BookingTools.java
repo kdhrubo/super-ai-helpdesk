@@ -55,10 +55,15 @@ public class BookingTools {
                 return flightBookingService.getBookingDetails(request.bookingNumber(), request.firstName(),
                         request.lastName());
             }
+
             catch (Exception e) {
-                logger.warn("Booking details: {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+                logger.info("Booking details: {}", NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+                /*
                 return new BookingDetails(request.bookingNumber(), request.firstName(), request.lastName,
                         null, null, null, null, null);
+
+                 */
+                throw new RuntimeException(e);
             }
         };
     }
