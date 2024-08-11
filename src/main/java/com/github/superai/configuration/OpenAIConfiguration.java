@@ -16,11 +16,13 @@ public class OpenAIConfiguration {
     ChatClient chatClient(ChatClient.Builder builder) {
         return builder.build();
     }
-
+    /*
     @Bean
     public SimpleVectorStore vectorStore(EmbeddingModel embeddingModel) {
         return new SimpleVectorStore(embeddingModel);
     }
+
+     */
 
     @Bean
     public ChatMemory chatMemory() {

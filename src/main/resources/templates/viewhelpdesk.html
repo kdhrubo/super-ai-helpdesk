@@ -132,31 +132,45 @@
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-6 col-lg-6">
+
             <div class="input-group mb-3">
                 <input type="hidden" x-model="chatId" th:value="${chatId}">
                 <input type="text" x-model="message" class="form-control" placeholder="Type your question here" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="getAnswer">Ask</button>
+                <button class="btn btn-outline-primary" type="button" id="button-addon2" @click="getAnswer">Go!</button>
             </div>
 
+            <!--
             <p x-text="answer" class=" pt-2 "></p>
+            -->
+
+
+            <div class="overflow-scroll p-3 bg-light"  style="width: 100%; height: 450px;">
+
+                <template x-for="msg in $store.messageStore.messages">
+                    <div>
+                        <span x-text="msg?.sender" class="text-primary fw-bold"></span><span>:</span> <span  class="fs-6" x-text="msg?.content"></span>
+                    </div>
+                </template>
+
+            </div>
+
+
 
         </div>
 
 
-        <div class="col-md-8 border-start border-success border-2">
+        <div class="col-md-6 col-lg-6 border-start border-success border-2">
             <h3>Bookings</h3>
 
 
-            <div x-cloak
-                    x-init="getBookings()"
-            >
+            <div x-cloak  x-init="getBookings()">
 
 
-                <table class="table table-striped table-sm">
+                <table class="table table-sm">
                     <tr>
                         <th>Booking #</th>
-                        <th>First Name</th>
+                        <th>Name</th>
                         <th>Last Name</th>
                         <th>Status</th>
                         <th>From </th>
@@ -167,10 +181,10 @@
                     <template x-for="b in bookings" :key="b.bookingNumber">
                         <tr>
 
-                            <td x-text="b.bookingNumber"></td>
-                            <td x-text="b.firstName"></td>
-                            <td x-text="b.lastName"></td>
-                            <td >
+                            <td x-text="b.bookingNumber" class="fs-6"></td>
+                            <td x-text="b.firstName" class="fs-6"></td>
+                            <td x-text="b.lastName" class="fs-6"></td>
+                            <td class="fs-6">
                                 <template x-if="b.bookingStatus == 'CONFIRMED'">
                                     <span x-text="b.bookingStatus" class="text-success fw-bold"></span>
                                 </template>
@@ -182,10 +196,10 @@
                                 </template>
                             </td>
 
-                            <td x-text="b.from"></td>
-                            <td x-text="b.to"></td>
-                            <td x-text="b.date"></td>
-                            <td x-text="b.bookingClass"></td>
+                            <td x-text="b.from" class="fs-6"></td>
+                            <td x-text="b.to" class="fs-6"></td>
+                            <td x-text="b.date" class="fs-6"></td>
+                            <td x-text="b.bookingClass" class="fs-6"></td>
                         </tr>
                     </template>
                 </table>
@@ -212,6 +226,37 @@
 <script src="//unpkg.com/alpinejs" defer></script>
 
 <script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('messageStore', {
+            messages: [],
+
+            addMessage(sender, message) {
+
+                console.log("@@ message - {}", message)
+
+                const id = this.messages.length;
+                this.messages = [
+                    {
+                        id,
+                        sender: sender,
+                        content: message
+                    },
+                    ...this.messages
+                ]
+
+                console.log("@@ messages - {}", this.messages)
+            },
+        })
+    })
+</script>
+
+<script>
+
+    function appendMessage(sender, message) {
+
+
+        Alpine.store('messageStore').addMessage(sender, message)
+    }
 
     const helpDeskApp = () => ({
         message: "",
@@ -221,10 +266,13 @@
         showBookingSpinner: true,
 
         getAnswer(event) {
-            // supress the submit so the the page does not refersh
+            // suppress the submit so the the page does not refersh
             event.preventDefault();
 
             console.log('message : ', this.message);
+
+            appendMessage("you",this.message);
+
 
             fetch('http://localhost:8080/v2/api/helpdesk?message='+this.message+"&chatId="+this.chatId)
                 .then((response) => response.text())
@@ -232,7 +280,8 @@
                     // if the value is not null
                     if (data) {
                         console.log("Data - ", data);
-
+                        appendMessage("superz",data);
+                        this.message = '';
                         this.getBookings();
                     }
                     else {

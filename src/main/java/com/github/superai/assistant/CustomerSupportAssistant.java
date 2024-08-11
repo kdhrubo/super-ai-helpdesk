@@ -5,6 +5,7 @@ package com.github.superai.assistant;
 import java.time.LocalDate;
 
 import com.github.superai.service.LoggingAdvisor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import reactor.core.publisher.Flux;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
 import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
 
-
+@Slf4j
 @Service
 public class CustomerSupportAssistant {
 
@@ -68,7 +69,7 @@ public class CustomerSupportAssistant {
 	}
 
 	public String chatV2(String chatId, String userMessageContent) {
-
+		log.info("Calling v2 service");
 		return this.chatClient.prompt()
 				.system(
 						s -> {

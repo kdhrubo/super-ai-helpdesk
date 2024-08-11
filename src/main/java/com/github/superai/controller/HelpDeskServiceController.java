@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 public class HelpDeskServiceController {
 
-    @GetMapping({"","/helpdesk"})
+    @GetMapping({"", "/","/helpdesk"})
     public String viewHelpDesk(Model model) {
         return "viewhelpdesk";
     }

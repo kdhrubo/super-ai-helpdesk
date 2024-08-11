@@ -29,6 +29,6 @@ spring:
 
 logging:
   level:
-    org.springframework.web: DEBUG
-    org.springframework.jdbc: DEBUG
+    org.springframework.web: INFO
+    org.springframework.jdbc: INFO
 
